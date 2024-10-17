@@ -160,4 +160,23 @@ router.get("/getAllUsers", async (req, res) => {
   }
 });
 
+  // Get a user by ID
+router.get("/getUser/:id", async (req, res) => {
+  try {
+    const user = await UserService.getUserById(req.params.id);
+    if (!user) {
+      return ResponseManager.sendSuccess(res, [], 200, "User not found");
+    }
+    return ResponseManager.sendSuccess(res, user, 200, "User retrieved successfully");
+  } catch (err) {
+    consoleManager.error(`Error fetching user by ID: ${err.message}`);
+    return ResponseManager.sendError(
+      res,
+      500,
+      "INTERNAL_ERROR",
+      "Error fetching user"
+    );
+  }
+});
+
 module.exports = router;

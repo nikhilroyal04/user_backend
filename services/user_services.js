@@ -79,6 +79,21 @@ class UserService {
       throw err;
     }
   }
+
+  async getUserById(userId) {
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        consoleManager.error("User not found");
+        return null;
+      }
+      consoleManager.log("User retrieved successfully");
+      return user;
+    } catch (err) {
+      consoleManager.error(`Error fetching user by ID: ${err.message}`);
+      throw err;
+    }
+  }
 }
 
 module.exports = new UserService();
